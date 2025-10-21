@@ -54,5 +54,14 @@ public class PracticeController {
             ,@RequestParam(value = "page",required = false ,defaultValue = "1") int page){
                  return "검색어: "+ query +"페이지: " +page;
 
+
+    }
+
+    @GetMapping("/test")
+    public String sdsee(
+            @RequestParam(value = "test",required = false,defaultValue = "2222") String  test
+            ,@RequestParam(value = "hey",required = false,defaultValue = "2222") String  hey
+            ){
+        return "hetty";
     }
 }
