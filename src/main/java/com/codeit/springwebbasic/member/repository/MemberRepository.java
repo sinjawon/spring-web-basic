@@ -59,8 +59,6 @@ public class MemberRepository {
       return  store.values().stream()
                 .filter(m -> m.getName().contains(name))
                 .collect(Collectors.toList());
-
-
     }
 
     // 등급별 회원 조회
