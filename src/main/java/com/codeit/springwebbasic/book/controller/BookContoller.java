@@ -3,17 +3,16 @@ package com.codeit.springwebbasic.book.controller;
 import com.codeit.springwebbasic.book.dto.request.BookCreateRequestDto;
 import com.codeit.springwebbasic.book.dto.response.BookResponseDto;
 import com.codeit.springwebbasic.book.entity.Book;
+import com.codeit.springwebbasic.book.repository.BookRepository;
 import com.codeit.springwebbasic.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor//final 변수를 초기화하는 매개값을  전달받는 생성자
                        //의존성주입은 대부분  이방식
+
 public class BookContoller {
 
     private final BookService bookService;
@@ -34,6 +33,14 @@ public class BookContoller {
     public BookResponseDto createBook(@Valid @RequestBody BookCreateRequestDto requestDto){
         Book book = bookService.createBook(requestDto);
         return BookResponseDto.from(book);
+    }
+
+    //조회요청
+    //매서드이름 get 책 1권조회요청 id
+   @GetMapping("/api/books/{id}")
+    public BookResponseDto getBook(@PathVariable Long id){
+       Book book = bookService.getBook(id);
+       return BookResponseDto.from(book);
     }
 
 }

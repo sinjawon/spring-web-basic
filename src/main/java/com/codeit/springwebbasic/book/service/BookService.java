@@ -39,4 +39,9 @@ public class BookService {
 
 
     }
+
+    public Book getBook(@Valid Long id) {
+      return bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("도서를 찾을수가없다"));
+    }
 }
