@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor//final 변수를 초기화하는 매개값을  전달받는 생성자
                        //의존성주입은 대부분  이방식
-
 public class BookContoller {
 
     private final BookService bookService;

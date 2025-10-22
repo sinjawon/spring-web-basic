@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Member {
     private Long id;
     private String name;
