@@ -27,6 +27,7 @@ package com.codeit.springwebbasic.member.controller;
         // 응답: 조회된 회원(Response DTO)을 리스트에 담아서 리턴 | 200 OK
 
 
+import com.codeit.springwebbasic.common.dto.ApiResponse;
 import com.codeit.springwebbasic.member.dto.response.MemberResponseDto;
 import com.codeit.springwebbasic.member.dto.reuqest.MemberCreateRequestDto;
 import com.codeit.springwebbasic.member.entity.Member;
@@ -41,7 +42,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/members")
+@RequestMapping("/api/v1/members")
 public class MemberController {
 
 
@@ -57,11 +58,13 @@ public class MemberController {
     // 응답: id, name, email, phone, grade, joinedAt
     // 상태 코드: 201 CREATED
     @PostMapping
-    public ResponseEntity<MemberResponseDto> createMember(
+    public ResponseEntity<ApiResponse<MemberResponseDto>> createMember(
             @Valid @RequestBody MemberCreateRequestDto reuqestDto){
         Member member = memberService.createMember(reuqestDto);
         //직접객체 생성해서 매개거ㅏㅄ으로한느것
-        return new ResponseEntity<>(MemberResponseDto.from(member), HttpStatus.CREATED);
+        MemberResponseDto responseDto = MemberResponseDto.from(member);
+        ApiResponse<MemberResponseDto> response = ApiResponse.success(responseDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 회원 조회 (단일)

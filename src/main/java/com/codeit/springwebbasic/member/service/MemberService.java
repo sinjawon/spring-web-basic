@@ -22,13 +22,13 @@ public class MemberService {
 
    public Member createMember(MemberCreateRequestDto requestDto){
 
-       if(memberRepository.existsByEmail(requestDto.getEmail())){
-           throw  new IllegalArgumentException("등록된이메일이다"+ requestDto.getEmail());
+       if(memberRepository.existsByEmail(requestDto.email())){
+           throw  new IllegalArgumentException("등록된이메일이다"+ requestDto.email());
        }
        Member member = Member.builder()
-               .name(requestDto.getName())
-               .email(requestDto.getEmail())
-               .phone(requestDto.getPhone())
+               .name(requestDto.name())
+               .email(requestDto.email())
+               .phone(requestDto.phone())
                .grade(MemberGrade.BRONZE)
                .joinedAt(LocalDateTime.now())
                .build();
