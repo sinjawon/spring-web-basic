@@ -2,6 +2,9 @@ package com.codeit.springwebbasic.common.dto;
 
 //이제부터 모든 api의 응답은 이 형식을 따를것이다
 
+import lombok.Getter;
+
+@Getter
 public class ApiResponse <T> {
 
     //1공통 비즈니스상태 코드
@@ -35,4 +38,6 @@ public class ApiResponse <T> {
         return new ApiResponse<>(code,message,null);
     }
     //3. 실패응답 (커스텀 코드와 메시지 )
+
+
 }

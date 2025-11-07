@@ -1,6 +1,7 @@
 package com.codeit.springwebbasic.common.exception;
 
 import com.codeit.springwebbasic.common.dto.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class CommonExceptionHandler {
     //컨트롤러 단에서 모든 예외를 일괄적으로 처리 하는 클래스
     //실제 예외는 servic계층에 발생하지만 따로 예외처리가 없는경우
@@ -19,7 +21,9 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponse> illegalArgsHandler(IllegalArgumentException e){
-        e.printStackTrace(); //어디서발생했고 어디서했는지
+        //log.error사용해서 예외 객체 전달하면 스택 트레이스를 모두 찍어줍니다
+        log.error(e.getMessage(),e);
+     //   e.printStackTrace(); //어디서발생했고 어디서했는지
      //
         ApiResponse<Object> response= ApiResponse.err("INVALID_ARGS",e.getMessage(),null);
 

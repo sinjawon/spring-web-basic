@@ -1,6 +1,7 @@
 package com.codeit.springwebbasic.member.dto.reuqest;
 
 import com.codeit.springwebbasic.member.MemberGrade;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -17,15 +18,19 @@ import java.time.LocalDateTime;
 //롬복의 빌더 사용가능하다 목적에 맞게 사용해야한다
 //리퀘스트는 빌더를 만들일이 없다
 //응답 dto는 빌더가 들어가면 좀 편하다 서비스에서 직접 생성해야하니
+@Schema(description = "회원생성을 위한 요청 DTO")
 public record MemberCreateRequestDto(
 
+        @Schema(description = "회원이름" ,examples = "홍길동")
         @NotBlank(message = "이름 필수입니다")
         String name,
 
-        @NotBlank(message = "메세지는 필수입니다")
+        @Schema(description = "이메일" ,examples = "이메일필수다")
+        @NotBlank(message = "이메일필수다 필수입니다")
         @Email(message = "올바른 이메일 형식이 아니다")//메일형식인지 검사해준다
         String email,
 
+        @Schema(description = "번호" ,examples = "010-24232-2323")
         @NotBlank(message = "전번도 필수다")
         @Pattern(regexp ="^01[016789]-\\d{3,4}-\\d{4}$",message = "전화번호 형식 인지해")
         String phone

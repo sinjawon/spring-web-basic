@@ -5,3 +5,24 @@ spring:
 server:
   port: 8081
 
+logging:
+  level:
+    com.codeit.springwebbasic.common.log.LogExample: debug
+    org.springframework.web: trace
+
+  file:
+    name: C:\springs\logs\spring-web-basic\app.logs
+
+
+
+springdoc:
+  swagger-ui:
+    path: /api-docs-ui.html #ui페이지 경로
+    tags-sorter: alpha #태그정렬방식 알파뱃순
+    operations-sorter: method #매소드도 정리해준다 기본값 알파뱃순 포스트맨아래로
+    display-request-duration: true #요청에 소요된 시간 표시
+    doc-expansion: list #문서 펼침상태 (none, list,full)
+
+
+  api-docs:
+    path: /my-api  #swagger가 우리 api의 정보를 얻어오기 위해서 요청하는 Url
