@@ -5,6 +5,7 @@ import com.codeit.springwebbasic.book.dto.response.BookResponseDto;
 import com.codeit.springwebbasic.book.entity.Book;
 import com.codeit.springwebbasic.book.repository.BookRepository;
 import com.codeit.springwebbasic.book.service.BookService;
+import com.codeit.springwebbasic.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class BookContoller {
     @RequestMapping(value = "/api/books",method = RequestMethod.POST)
     public BookResponseDto createBook(@Valid @RequestBody BookCreateRequestDto requestDto){
         Book book = bookService.createBook(requestDto);
-        return BookResponseDto.from(book);
+        return  BookResponseDto.from(book);
     }
 
     //조회요청

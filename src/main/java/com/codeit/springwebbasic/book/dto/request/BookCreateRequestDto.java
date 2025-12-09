@@ -1,5 +1,7 @@
 package com.codeit.springwebbasic.book.dto.request;
 
+import com.codeit.springwebbasic.book.valid.NoBannedWord;
+import com.codeit.springwebbasic.book.valid.ValidEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
@@ -22,19 +24,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 //Valled 붙이면 검증이 가능해진다
 public class BookCreateRequestDto {
-
+   //타이틀에 나쁜욕성 안들어오게
     @NotBlank(message = "제목은 필수입니다")
+    @NoBannedWord(message = "제목에 비속어를 포함할수 없다")
   //  @siz(min=2,max = 10)
     private String title;
 
     @NotBlank(message = "저자는 필수입니다")
     private String author;
+
     @NotBlank(message = "ISBN은 필수입니다")
     //정규표현식 문자열의 일정한 패턴을 표현하는 형식 언어
     @Pattern(regexp ="\\d{13}",message = "ISBN은 13자리 숫자영야한다")
     private String isbn;
+
     @NotBlank(message = "출판사가 없겠냐")
     private String publisher;
+
     @PastOrPresent(message = "출판일은 과거 또는 현재이여야 한다.")
     private LocalDate publishedDate;
+
+   //검증값은 enum 이지만 ,필드타입은 Stringd으로 선언
+    @ValidEnum(enumClass = BookType.class,
+            ignoreCase = true,
+            message = "유요하지않느책종류")
+    private String type;
 }

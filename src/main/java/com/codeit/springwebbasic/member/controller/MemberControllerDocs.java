@@ -42,7 +42,7 @@ public interface MemberControllerDocs {
             //위는 정답일떄 , 아래는 비정상일때
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "201",
-                    description = "회원가입 성공",
+                    description = "회원가입 성공(이미지 등록 x)",
                     //스웨거 컨텐트
                     content = @Content(
                             mediaType = "application/json",
