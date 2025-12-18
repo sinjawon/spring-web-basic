@@ -1,0 +1,89 @@
+version: '3.8'  #가장 많이 작성되는 안정적인 버전이다
+services: # 실행할 여러 컨테이너들을 정의
+  app:  # 어떤 이름으로 작성 상관x 메렁도 가능
+    build: # 이 app구현하려면 빌드할꺼야 이미지를 직접커스텀생성하려고할때
+      context: . # 현재 경로에서 빌드할꺼야
+      dockerfile: Dockerfile #어떤 도커파일쓸지 명시
+    container_name: my-app
+    ports:
+      - "8080:8080"
+
+  #docker compose에서는 컨테이너 이름뿐만 아니라 service이름으로도 컨테이너 지목가능
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+    depends_on: #서비스 시작 순서 제어
+      postgres:
+        condition: service_healthy #postgres가 healthcheck를 통과할때까지 대기
+      redis:
+        condition: service_healthy #레듯도 추가
+    networks:
+      - app-network
+
+
+
+  postgres:
+    image: postgres:16
+    container_name: my-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: 6091
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - my-postgres-data:/var/lib/postgresql/data
+    healthcheck:  #z컨테이너가 정상인지 주기적으로 확인
+      test: ["CMD-SHELL","pg_isready -U postgres -d ${POSTGRES_DB}"] #헬스채크위해 실행할 명령어
+      interval: 10s  #10초마다 체크
+      timeout: 5s # 5초안에 응답없으면 x
+      retries: 5 # 5번 실패 unghealthy상태
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s  #10초마다 체크
+      timeout: 3s # 5초안에 응답없으면 x
+      retries: 5 # 5번 실패 unghealthy상태
+    networks:
+      - app-network
+
+
+#볼륨 정의
+volumes:
+  my-postgres-data:
+    driver: local #호스트의 로컬에?
+  redis-data:
+    driver: local
+
+#네트워크 설정
+networks:
+  app-network:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

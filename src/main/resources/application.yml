@@ -2,16 +2,16 @@ spring:
   application:
     name: spring-web-basic
 
+   #기본프로필 (로컬 개발용)
+  datasource:
+    url: jdbc:postgresql://my-postgres:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 6091
+
 server:
-  port: 8081
+  port: 8080
 
-logging:
-  level:
-    com.codeit.springwebbasic.common.log.LogExample: debug
-    org.springframework.web: trace
-
-  file:
-    name: C:\springs\logs\spring-web-basic\app.logs
 
 
 
@@ -24,5 +24,31 @@ springdoc:
     doc-expansion: list #문서 펼침상태 (none, list,full)
 
 
+
+
   api-docs:
     path: /my-api  #swagger가 우리 api의 정보를 얻어오기 위해서 요청하는 Url
+
+logging:
+  level:
+    com.codeit.springwebbasic.common.log.LogExample: debug
+    org.springframework.web: trace
+
+  file:
+    name: C:\springs\logs\spring-web-basic\app.logs
+
+
+---
+#docker 환경용 프로플
+#스프링 초기화 시 만약 프로필 active가 docker라면 아래설정을 우선시 하겠다
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+ #환경 변수로 외부에서 주입을 받겠다 노출시키지않겠다
+#위에 것은 다 그대로고 바꾸고싶은거만 여기다
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
