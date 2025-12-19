@@ -7,10 +7,10 @@ import com.codeit.springwebbasic.member.entity.Member;
 import com.codeit.springwebbasic.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,14 +25,22 @@ public class MemberService {
     //여기서 사용할꺼야
     //그치만 롬복을한다면?
   //  private final Logger log = LoggerFactory.getLogger(MemberService.class);
+  private final S3FileService s3FileService;
 
-
-   public MemberResponseDto createMember(MemberCreateRequestDto requestDto){
+   public MemberResponseDto createMember(MemberCreateRequestDto requestDto, MultipartFile file){
 
        if(memberRepository.existsByEmail(requestDto.email())){
-
            throw  new IllegalArgumentException("등록된이메일이다"+ requestDto.email());
        }
+
+       //aws s3와 연동해서  프로필파일을 전송하는 로직 작성 하려고 한다
+       try {
+           s3FileService.uploadTos3Bucket(file);
+       } catch (IOException e) {
+           log.error(e.getMessage());
+           throw new RuntimeException("넣기에실패",e);
+       }
+
        Member member = Member.builder()
                .name(requestDto.name())
                .email(requestDto.email())

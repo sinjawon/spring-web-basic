@@ -37,11 +37,13 @@ dependencies {
 // Swagger/OpenAPI 추가
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0'
 
-
   //aop기능 추가 왜 없지 손으로해야하네
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     //
 
+ //소트웨어 킷
+    implementation platform('software.amazon.awssdk:bom:2.20.56')
+    implementation 'software.amazon.awssdk:s3'
 }
 
 tasks.named('test') {
