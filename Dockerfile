@@ -1,7 +1,7 @@
 #베이스 이미지로 openjdk17-jdk-slim버전사용
 #이미지 빌드 시 java 17버전이 설치된 리눅스 환경을 깔아라
 
-FROM amazoncorretto:17 AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 
 #작업폴더 지정(이제부터 컨테이너안의/app이라는 폴더에서 작업할게!)
 WORKDIR /app
@@ -28,12 +28,16 @@ RUN ./gradlew clean build -x test
 #############################################################################################################################
 #두번째 스테이지 -> 실행 영역
 #이거할꺼야
-FROM amazoncorretto:17
+FROM eclipse-temurin:17-jre-alpine
 
 # build라는 별칭으로 만들어진 첫번째 스테이지에서
 #엡이라는폴더 안에 빌드 안에 립스안에 끝이 jar로 끝나는 파일을  app.jar로 복사해서 이미지 세팅하겠다
 
 COPY --from=build /app/build/libs/*.jar app/jar
+
+#타임존 설정
+ENV TZ=Asia/Seoul
+RUN apk add --no -cache tzdata
 
 #이 이미지를기반으로한 컨테이너가 시작될 때 무조건 실행해야 하는 명령어
 ENTRYPOINT ["java","-jar","app/jar"]
