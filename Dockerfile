@@ -37,7 +37,7 @@ COPY --from=build /app/build/libs/*.jar app/jar
 
 #타임존 설정
 ENV TZ=Asia/Seoul
-RUN apk add --no-cache tzdata
+RUN apk add --no-cache curl tzdata
 
 #이 이미지를기반으로한 컨테이너가 시작될 때 무조건 실행해야 하는 명령어
 ENTRYPOINT ["java","-jar","app/jar"]

@@ -1,16 +1,27 @@
 spring:
   application:
     name: spring-web-basic
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${AWS_S3_ACCESS_KEY}
+        secretKey: ${AWS_S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: s3-bucket-practice9874
 
    #기본프로필 (로컬 개발용)
   datasource:
-    url: jdbc:postgresql://my-postgres:5432/postgres
+    url: jdbc:postgresql://myapp-postgres-db.ct0w2msg4t9k.ap-northeast-2.rds.amazonaws.com:5432/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: 6091
+    password: ${DB_PASSWORD}
 
 server:
   port: 8080
+
+
 
 
 
@@ -38,6 +49,13 @@ logging:
     name: C:\springs\logs\spring-web-basic\app.logs
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+
+
 ---
 #docker 환경용 프로플
 #스프링 초기화 시 만약 프로필 active가 docker라면 아래설정을 우선시 하겠다
@@ -48,6 +66,7 @@ spring:
 
  #환경 변수로 외부에서 주입을 받겠다 노출시키지않겠다
 #위에 것은 다 그대로고 바꾸고싶은거만 여기다
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
