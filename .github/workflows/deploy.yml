@@ -12,7 +12,7 @@ env:
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
   CONTAINER_NAME: spring-app
 
-# 워크 플로우에서 실행될 작업을 정의
+# 워크 플로우에서 실행될 S작업을 정의
 jobs:
   deploy:
     name: Deploy
