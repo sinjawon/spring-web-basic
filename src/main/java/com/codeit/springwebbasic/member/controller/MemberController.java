@@ -76,7 +76,7 @@ public class MemberController implements MemberControllerDocs {
             @Valid @RequestPart("request") MemberCreateRequestDto reuqestDto,
             @RequestPart("file") MultipartFile file
             ){
-        log.info("post dto:{}",reuqestDto);
+        log.info("posSt dto:{}",reuqestDto);
         MemberResponseDto responseDto = memberService.createMember(reuqestDto,file);
 
 
